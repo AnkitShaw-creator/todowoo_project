@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+    <head>
+        <title>User SignUp</title>
+    </head>
+
+    <body>
+        <h1>SignUp</h1>
+
+        {% if error != 0 %}
+        <h3>{{error}}</h3>
+        {% endif %}
+
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">SignUp</button>
+        </form>
+    </body>
+
+
+</html>
