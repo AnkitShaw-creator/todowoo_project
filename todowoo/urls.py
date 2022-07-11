@@ -18,6 +18,10 @@ from django.urls import path
 from todo import views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
     path('signup/',views.signUpUser, name='signUpUser'),
+    path('logout/', views.logOutUser, name= 'logOutUser'),
+    path('login/', views.logInUser, name= 'logInUser'),
     path('dashboard/',views.dashboard, name='dashboard'),
+    path('createtodos', views.createToDos, name='createToDos'),
 ]

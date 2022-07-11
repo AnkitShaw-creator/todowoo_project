@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Your Dashboard</title>
 </head>
 <body>
     <h1>dashboard</h1>
+    Logged in as {{user.username}}
+    <form action="{% url 'logOutUser'%}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+
+        <ul>
+            {% for todo in todos %}
+            <li>{% if todo.priority == 1 %}<b>{% endif %}{{ todo }}{% if todo.priority == 1 %}</b>{% endif %}</li>
+                {% if todo.description %} -- {{ todo.description }} -- {% endif%}
+                <br><br>
+            {% endfor %}
+        </ul>
+
+    </form>
+    <a href="{%url 'createToDos'%}" role="button"> Create Todos</a>
 </body>
 </html>
