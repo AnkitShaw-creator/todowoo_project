@@ -24,4 +24,8 @@ urlpatterns = [
     path('login/', views.logInUser, name= 'logInUser'),
     path('dashboard/',views.dashboard, name='dashboard'),
     path('createtodos', views.createToDos, name='createToDos'),
+    path('todo/<int:todo_pk>', views.viewToDo, name='viewToDo'),
+    path('todo/<int:todo_pk>/complete', views.completeToDo, name='completeToDo'),
+    path('todo/<int:todo_pk>/delete', views.deleteToDo, name='deleteToDo'),
+    path('completed/',views.completedToDo, name='completedToDo'),
 ]

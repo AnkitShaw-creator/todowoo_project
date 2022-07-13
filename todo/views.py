@@ -1,5 +1,7 @@
+
 from sqlite3 import IntegrityError
-from django.shortcuts import render, redirect
+from django.utils import timezone
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -49,7 +51,7 @@ def logInUser(request):
             return redirect('dashboard')
 
 def dashboard(request):
-    todos = ToDo.objects.filter(user = request.user)
+    todos = ToDo.objects.filter(user = request.user, datecompleted__isnull=True)
     return render(request, 'todo/dashboard.html', {'todos':todos})
 
 def createToDos(request):
@@ -64,3 +66,38 @@ def createToDos(request):
             return redirect('dashboard')
         except ValueError:
             return render(request, 'todo/createToDo.html',{'form':ToDoForm(), 'error':'The value entered is not supported'})
+
+def viewToDo(request, todo_pk):
+    todo = get_object_or_404(ToDo,pk=todo_pk, user=request.user)
+    if request.method == 'GET':
+        form = ToDoForm(instance=todo)
+        return render(request, 'todo/viewToDo.html', {'todo':todo, 'form':form,})
+    if request.method == 'POST':
+        try:
+            if request.POST['completed']:
+                todo.datecompleted = timezone.now()
+                todo.save()
+            form  = ToDoForm(request.POST, instance=todo)
+            form.save()
+            return redirect('dashboard')
+        except ValueError:
+            return render(request, 'todo/viewToDo.html', {'todo':todo, 'form':form,'error': 'Please check the updates made'})
+
+
+
+def completeToDo(request, todo_pk):
+    todo = get_object_or_404(ToDo,pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        pass
+    #TODO: to be use after removing the completed checkbox from form and model
+
+
+def deleteToDo(request, todo_pk):
+    todo = get_object_or_404(ToDo,pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('dashboard')
+
+def completedToDo(request):
+    todos = ToDo.objects.filter(user = request.user, completed=True).order_by('-datecompleted')
+    return render(request, 'todo/completed.html', {'todos':todos})
