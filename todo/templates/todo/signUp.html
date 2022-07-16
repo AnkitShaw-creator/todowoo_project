@@ -1,21 +1,62 @@
 <!DOCTYPE html>
     <head>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
         <title>User SignUp</title>
     </head>
 
-    <body>
-        <h1>SignUp</h1>
+    <body style="font-family: 'IBM Plex Mono', monospace;">
+        <nav class="navbar navbar-expand-lg" style="background-color: rgb(161, 143, 30);">
+            <div class="container-fluid">
+                <h2>Todowooooooo...</h2>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                    aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="d-flex" id="navbarScroll">
+                    <form action="{% url 'logInUser' %}" method="GET">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
 
-        {% if error != 0 %}
-        <h3>{{error}}</h3>
-        {% endif %}
-
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">SignUp</button>
-        </form>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-5">
+                <h1>SignUp to use ToDoWoo</h1>
+                
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {% endif %}
+                
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <!--{{ form.as_p }}-->
+                    <div class="form-control">
+                        <label for="username">What would like to be called?</label>
+                        <input type="text" class="form-control" name="username" id="username" aria-describedby="usernamehelpertxt">
+                        <small id="usernamehelpertxt">Please choose a unique username</small>
+                    </div>
+                    <div class="form-control">
+                        <label for="password1">Choose a strong password</label>
+                        <input type="password" class="form-control" name="password1" id="password1">
+                        
+                    </div>
+                    <div class="form-control">
+                        <label for="password2">Confirm your password</label>
+                        <input type="password" class="form-control" name="password2" id="password2">
+                    </div>
+                    <button type="submit" class="btn btn-primary">SignUp</button>
+                </form>
+                <br>
+                <p>If you have an account then click on Login</p>
+            </div>
+        </div>
+        
     </body>
-
 
 </html>

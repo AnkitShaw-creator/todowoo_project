@@ -28,8 +28,10 @@ def signUpUser(request):
                 return redirect('dashboard')
             except IntegrityError:
                 return render(request, 'todo/signUp.html',{'form':UserCreationForm(), 'error':'Sorry, that user name is already taken'})
+            except ValueError:
+                return render(request, 'todo/signUp.html',{'form':UserCreationForm(), 'error':'Please enter a valid username and password'})
         else:
-            return render(request, 'todo/signUp.html',{'form':UserCreationForm(), 'error':'Password is mismatch'})
+            return render(request, 'todo/signUp.html',{'form':UserCreationForm(), 'error':'Password does not match'})
 
 
 def logOutUser(request):

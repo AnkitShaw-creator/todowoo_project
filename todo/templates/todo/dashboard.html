@@ -10,22 +10,22 @@
 
     <title>Your Dashboard</title>
 </head>
-<body>
+<body style="font-family: 'IBM Plex Mono', monospace;">
 
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(179, 237, 181);">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">{{user.username}}'s dashboard</a>
+            <h2>{{user.username}}'s dashboard</h2>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarScroll">
+            <div class="d-flex" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{%url 'createToDos'%}">Create Todos</a>
+                        <a class="nav-link active" aria-current="page" href="{%url 'createToDos'%}">Create Todos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{%url 'completedToDo'%}">See completed ToDos</a>
+                        <a class="nav-link active" href="{%url 'completedToDo'%}">See completed ToDos</a>
                     </li>
                     
                     
@@ -42,16 +42,20 @@
         <h2> You have {{ todos.count }} todos to complete </h2>
         <ul style="margin-top: 40px;">
             {% for todo in todos %}
-            <li><a href="{% url 'viewToDo' todo.id %}">
-                    {% if todo.priority == 1 %}<b>{% endif %}{{ todo }}{% if todo.priority == 1 %}</b>{% endif %}</a>
-                    <br>
-                    {% if todo.description %} -- {{ todo.description }} -- {% endif%}
-            </li>
+            {% if todo.important %}<div class="card w-75" style="background-color: rgb(255, 106, 106);">
+                {% else %}<div class="card w-75">
+                {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title">{{ todo }}</h4>
+                            <p class="card-text">{% if todo.description %}{{ todo.description|truncatechars:150 }}{% endif%}</p>
+                            <a href="{% url 'viewToDo' todo.id %}" class="btn btn-success">See details</a>
+                        </div>
+                    </div>
             <br><br>
             {% endfor %}
         </ul>
     </div>
 
-
+    
 </body>
 </html>

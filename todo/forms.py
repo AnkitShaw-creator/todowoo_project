@@ -3,4 +3,4 @@ from .models import ToDo
 class ToDoForm(ModelForm):
     class Meta:
         model = ToDo
-        fields = ['title', 'description', 'priority', 'duedate','completed',]
+        fields = ['title', 'description', 'important', 'duedate','completed',]

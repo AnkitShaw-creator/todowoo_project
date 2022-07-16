@@ -8,7 +8,7 @@ class ToDo(models.Model):
     datecreated= models.DateTimeField(auto_now_add=True)
     datecompleted = models.DateTimeField(null=True, blank=True)
     duedate=models.DateField()
-    priority = models.PositiveSmallIntegerField()
+    important = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 

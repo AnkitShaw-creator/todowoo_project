@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,27 +12,33 @@
         
     <title>Todowoo</title>
 </head>
+
 <body style="font-family: 'IBM Plex Mono', monospace;">
+    {% load static %}
     <nav class="navbar navbar-expand-lg" style="background-color: rgb(161, 143, 30);">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Todowooooooo...</a>
+            <h2>Todowooooooo...</h2>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'signUpUser' %}">Signup</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logInUser' %}">Login</a>
-                    </li>
-                </ul>
+                <div class="row justify-content-end">
+                    <div class="col-4">
+                        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'signUpUser' %}">Signup</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logInUser' %}">Login</a>
+                        </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
-
+    
     <div class="container" style="padding: 40px;">
         <p style="padding: 20px;">
             <h1>
@@ -42,6 +50,7 @@
             </h4>
         </p>
     </div>
-    
 </body>
+
+
 </html>
