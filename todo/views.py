@@ -75,10 +75,7 @@ def viewToDo(request, todo_pk):
         form = ToDoForm(instance=todo)
         return render(request, 'todo/viewToDo.html', {'todo':todo, 'form':form,})
     if request.method == 'POST':
-        try:
-            if request.POST['completed']:
-                todo.datecompleted = timezone.now()
-                todo.save()
+        try:    
             form  = ToDoForm(request.POST, instance=todo)
             form.save()
             return redirect('dashboard')
@@ -90,7 +87,10 @@ def viewToDo(request, todo_pk):
 def completeToDo(request, todo_pk):
     todo = get_object_or_404(ToDo,pk=todo_pk, user=request.user)
     if request.method == 'POST':
-        pass
+        todo.completed = True
+        todo.datecompleted = timezone.now()
+        todo.save()
+        return redirect('dashboard')
     #TODO: to be use after removing the completed checkbox from form and model
 
 
@@ -102,4 +102,4 @@ def deleteToDo(request, todo_pk):
 
 def completedToDo(request):
     todos = ToDo.objects.filter(user = request.user, completed=True).order_by('-datecompleted')
-    return render(request, 'todo/completed.html', {'todos':todos})
+    return render(request, 'todo/completedToDo.html', {'todos':todos})

@@ -7,49 +7,83 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
-    <title>Document</title>
+    <title>{{todo.title}}</title>
 </head>
-<body style="font-family: 'IBM Plex Mono', monospace;" style="background-color: rgb(161, 143, 30);">
+<body style="font-family: 'IBM Plex Mono', monospace;">
 
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(161, 143, 30);">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">{{user.username}}'s dashboard</a>
+            <h2>{{user.username}}'s dashboard</h2>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarScroll">
+            <div class="d-flex" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{%url 'createToDos'%}">Create Todos</a>
+                        <a class="nav-link active" aria-current="page" href="{%url 'createToDos'%}">Create Todos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{%url 'completedToDo'%}">See completed ToDos</a>
+                        <a class="nav-link active" href="{%url 'completedToDo'%}">See completed ToDos</a>
                     </li>
     
     
                 </ul>
                 <form class="d-flex" action="{% url 'logOutUser'%}" method="post">
                     {% csrf_token %}
-                    <button class="btn btn-outline-success" type="submit">Logout</button>
+                    <button class="btn btn-danger" type="submit">Logout</button>
                 </form>
             </div>
         </div>
     </nav>
 
-    {{todo.title}} <br>
 
-    {{ error }} <br>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Save</button>
-    </form>
+    <br><br><br>
+    <div class="container">
+        <h1>{{todo.title}}</h1>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+        {% endif %}
+        <div class="form-control">
+            <form class="d-flex" action="{% url 'deleteToDo' todo.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
+            <form class="d-flex" action="{% url 'completeToDo' todo.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-success">Complete</button>
+            </form>
+        </div>
+        
 
-    <form action="{% url 'deleteToDo' todo.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
-    
+        <form action="" method="post" class="form-control">
+            {% csrf_token %}
+            
+            <label for="id_title">Title:</label>
+            <input type="text" name="title" maxlength="100"  value="{{todo.title}}" required id="id_title" class='form-control'>
+        
+            <label for="id_description">Description:</label>
+            <textarea name="description" cols="40" rows="10" id="id_description" class='form-control'>{{todo.description}}</textarea>
+        
+            <label for="id_important">Important:</label>
+            <input type="checkbox" name="important" id="id_important" {% if todo.important %}checked{% endif %}> <br>
+        
+            <label for="id_duedate">Duedate:</label>
+            <input type="date" name="duedate" value="{{todo.duedate|date:'Y-m-d'}}" required id="id_duedate" > <br>
+        
+        
+            <!--label for="id_completed">Completed:</label>
+            <input type="checkbox" name="completed" id="id_completed"--> <br>
+        
+        
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            <!--button type="submit" class="btn btn-outline-danger" onclick="$('#delete').click()">Delete</button-->
+            
+        </form>
+        
+    </div>
+
 </body>
 </html>
